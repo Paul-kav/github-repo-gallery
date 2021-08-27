@@ -27,7 +27,7 @@ const gitUserInfo = async function () {
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div> `;
     overview.append(div);
-    gitRepos();
+    gitRepos(username);
  };
 
  const gitRepos = async function() {
@@ -37,6 +37,7 @@ const gitUserInfo = async function () {
  };
 
  const displayRepos = function (repos){
+   filterInput.classList.remove("hide");
    for (const repo of repos) {
      const repoItem = document.createElement("li");
      repoItem.classList.add("repo");
@@ -55,7 +56,8 @@ const gitUserInfo = async function () {
  const getRepoInfo = async function(repoName){
    const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
    const repoInfo = await fetchInfo.json();
-   console.log(repoInfo);
+  //  console.log(repoInfo);
+
   //  grab languages
   const fetchLanguages = await fetch(repoInfo.languages_url);
   const languageData = await fetchLanguages.json();
@@ -93,7 +95,7 @@ viewReposButton.addEventListener("click", function(){
   viewReposButton.classList.add("hide");
 });
 
-//input event listner/ dynamic search
+//input event listener/ dynamic search
 filterInput.addEventListener("input", function(e) {
   const searchText = e.target.value;
   const repos = document.querySelectorAll(".repo");
